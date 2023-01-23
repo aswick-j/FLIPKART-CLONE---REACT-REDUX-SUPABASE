@@ -1,12 +1,16 @@
-import React from "react";
+import React,{useState} from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 import { IoSearch } from "react-icons/io5";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
+import Login from "../Login/Login";
 
 const Navbar = () => {
+
+const [isOpen,setIsOpen] = useState(false);
+
   return (
     <>
       <div className="__navbar-conatiner">
@@ -28,28 +32,30 @@ const Navbar = () => {
             <button className="__navbar-searchbtn">
               <IoSearch />
             </button>
+          </div>
+          <button className="__navbar-loginbtn" onClick={()=>setIsOpen(true)}>Login</button>
+          <div className="__navbar-bs">
+            <h3>Become a Seller</h3>
+          </div>
+          <div className="__navbar-more">
+            <h3>
+              More
+              <i className="__navbar-moredropdown">
+                <MdKeyboardArrowDown />
+              </i>
+            </h3>
+          </div>
+          <div className="__navbar-cart">
+            <div className="__navbar-cartIcon">
+              <FaShoppingCart />
             </div>
-            <button className="__navbar-loginbtn">Login</button>
-            <div className="__navbar-bs">
-              <h3>Become a Seller</h3>
-            </div>
-            <div className="__navbar-more">
-              <h3>
-                More
-                <i className="__navbar-moredropdown">
-                  <MdKeyboardArrowDown />
-                </i>
-              </h3>
-            </div>
-            <div className="__navbar-cart">
-              <div className="__navbar-cartIcon">
-                <FaShoppingCart />
-              </div>
-              <Link to={"/cart"} className="__navbar-cartLink">Cart</Link>
-            </div>
+            <Link to={"/cart"} className="__navbar-cartLink">
+              Cart
+            </Link>
           </div>
         </div>
-  
+        <Login isOpen={isOpen} setIsOpen={setIsOpen}/>
+      </div>
     </>
   );
 };
