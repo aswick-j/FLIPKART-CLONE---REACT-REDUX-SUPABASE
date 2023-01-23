@@ -3,10 +3,37 @@ import "./Login.css";
 
 import { RxCross2 } from "react-icons/rx";
 
+import supabase from "../../supabase";
+
 const Login = ({ isOpen, setIsOpen }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [loginType, setLoginType] = useState("");
+
+  const signup = async () => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+    if (data.user) {
+      alert("Account Created. Please verify your Email");
+    }
+    console.log(data, error);
+    alert(error.message);
+  };
+
+  const login = async () => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    console.log(data, error);
+    if (error) {
+      alert(error?.message);
+      return;
+    }
+  };
 
   return isOpen ? (
     <div className="__login-overlay">
@@ -46,9 +73,13 @@ const Login = ({ isOpen, setIsOpen }) => {
             <span style={{ color: "blue" }}> Privacy Policy.</span>
           </p>
           {loginType ? (
-            <button className="__login-btn">Login</button>
+            <button className="__login-btn" onClick={login}>
+              Login
+            </button>
           ) : (
-            <button className="__login-btn">Signup</button>
+            <button className="__login-btn" onClick={signup}>
+              Signup
+            </button>
           )}
           {loginType ? (
             <p className="__login-signup" onClick={() => setLoginType(false)}>
