@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
@@ -6,10 +6,31 @@ import { IoSearch } from "react-icons/io5";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { FaShoppingCart } from "react-icons/fa";
 import Login from "../Login/Login";
+import { useDispatch, useSelector } from "react-redux";
+import supabase from "../../supabase";
+import { removeUser } from "../../redux/userSlice";
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
 
-const [isOpen,setIsOpen] = useState(false);
+  const user = useSelector((state) => state.userData.user);
+
+  console.log(user);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      setIsOpen(false);
+    }
+  }, [user]);
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      dispatch(removeUser());
+    }
+  };
 
   return (
     <>
@@ -33,7 +54,16 @@ const [isOpen,setIsOpen] = useState(false);
               <IoSearch />
             </button>
           </div>
-          <button className="__navbar-loginbtn" onClick={()=>setIsOpen(true)}>Login</button>
+          {user ? (
+            <h3 onClick={signOut}>@{user.email.slice(0, 6)}</h3>
+          ) : (
+            <button
+              className="__navbar-loginbtn"
+              onClick={() => setIsOpen(true)}
+            >
+              Login
+            </button>
+          )}
           <div className="__navbar-bs">
             <h3>Become a Seller</h3>
           </div>
@@ -54,7 +84,7 @@ const [isOpen,setIsOpen] = useState(false);
             </Link>
           </div>
         </div>
-        <Login isOpen={isOpen} setIsOpen={setIsOpen}/>
+        <Login isOpen={isOpen} setIsOpen={setIsOpen} />
       </div>
     </>
   );

@@ -5,11 +5,16 @@ import { RxCross2 } from "react-icons/rx";
 
 import supabase from "../../supabase";
 
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/userSlice";
+
 const Login = ({ isOpen, setIsOpen }) => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [loginType, setLoginType] = useState("");
+  const [loginType, setLoginType] = useState(true);
 
   const signup = async () => {
     const { data, error } = await supabase.auth.signUp({
@@ -19,7 +24,7 @@ const Login = ({ isOpen, setIsOpen }) => {
     if (data.user) {
       alert("Account Created. Please verify your Email");
     }
-    console.log(data, error);
+    // console.log(data, error);
     alert(error.message);
   };
 
@@ -28,11 +33,12 @@ const Login = ({ isOpen, setIsOpen }) => {
       email,
       password,
     });
-    console.log(data, error);
+    // console.log(data, error);
     if (error) {
       alert(error?.message);
       return;
     }
+    dispatch(setUser(data.user));
   };
 
   return isOpen ? (
