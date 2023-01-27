@@ -45,7 +45,7 @@ export const CarouselData = [
   {
     id: 1,
     Imgsrc:
-      "https://rukminim1.flixcart.com/fk-p-flap/1688/280/image/61c104839324e184.jpg?q=50",
+      "https://rukminim1.flixcart.com/fk-p-flap/844/140/image/c176b22443423a06.jpg?q=50",
   },
   {
     id: 2,

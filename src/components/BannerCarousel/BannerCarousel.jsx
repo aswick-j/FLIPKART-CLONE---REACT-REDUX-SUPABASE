@@ -9,17 +9,38 @@ import { useState } from "react";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import { MdArrowForwardIos } from "react-icons/md";
 
+const Next = (props) => {
+  const { className, onClick } = props;
+  return (
+    <div className={className} onClick={onClick}>
+      <MdArrowForwardIos
+        style={{ color: "black", fontSize: 25, fontWeight: 900 }}
+      />
+    </div>
+  );
+};
+const Prev = (props) => {
+  const { className, onClick } = props;
+  return (
+    <div className={className} onClick={onClick}>
+      <MdOutlineArrowBackIosNew
+        style={{ color: "black", fontSize: 25, fontWeight: 900 }}
+      />
+    </div>
+  );
+};
+
 const BannerCarousel = ({ data }) => {
   const settings = {
-    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
   };
   return (
     <div className="__banner-carousel">
-      <Slider {...settings}>
+      <Slider nextArrow={<Next />} prevArrow={<Prev />} {...settings}>
         {data.map((item) => (
           <div key={item.id}>
             <img
